@@ -5,12 +5,16 @@ def test_dark_theme_by_time():
     Протестируйте правильность переключения темной темы на сайте в зависимости от времени
     """
     current_time = time(hour=23)
-    # TODO переключите темную тему в зависимости от времени суток (с 22 до 6 часов утра - ночь)
 
-    if current_time.hour > 21 and current_time.hour < 7:
-        is_dark_theme = False
-    else:
+    # TODO переключите темную тему в зависимости от времени суток (с 22 до 6 часов утра - ночь)
+    is_dark_theme = None
+
+    if current_time.hour >= 22:
         is_dark_theme = True
+    elif current_time.hour <= 6:
+        is_dark_theme = True
+    else:
+        is_dark_theme = False
     assert is_dark_theme is True
 
 def test_dark_theme_by_time_and_user_choice():
@@ -32,11 +36,13 @@ def test_dark_theme_by_time_and_user_choice():
     elif dark_theme_enabled_by_user == False:
         is_dark_theme = False
 
-    elif dark_theme_enabled_by_user == None and current_time.hour > 21 and current_time.hour < 7:
-        is_dark_theme = False
-
-    else:
-        is_dark_theme = True
+    elif dark_theme_enabled_by_user == None:
+        if current_time.hour >= 22:
+            is_dark_theme = True
+        elif current_time.hour <= 6:
+            is_dark_theme = True
+        else:
+            is_dark_theme = False
 
     assert is_dark_theme is True
 
@@ -85,12 +91,7 @@ def test_find_suitable_user():
 
 def print_name(foo, *args):
     res_name = foo.__name__.replace('_', ' ').title()
-    arr = []
-
-    for i in args:
-        arr.append(i)
-
-    res_args = ', '.join(arr)
+    res_args = ', '.join(args)
     res = f'{res_name} [{res_args}]'
 
     return res
